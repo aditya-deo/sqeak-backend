@@ -25,10 +25,9 @@ app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
-//Handling request for PostCards (send all the posts for now)
 var postSchema = new mongoose.Schema(
   {
-    postID: String,
+    id: String,
     title: String,
     author: String,
     desc: String,
@@ -37,8 +36,22 @@ var postSchema = new mongoose.Schema(
   { collection: "Posts" }
 );
 const post = mongoose.model("Post", postSchema);
+
+//Handling request for PostCards (send all the posts for now)
 app.get("/cards", (req, res) => {
-  posts = post.find({}, (err, data) => {
+  post.find({}, (err, data) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.send(data);
+    }
+  });
+});
+
+//Handling request for /read/postID
+app.get("/read", (req, res) => {
+  const Postid = req.query["id"];
+  post.findOne({ id: Postid }, (err, data) => {
     if (err) {
       console.log(err);
     } else {
