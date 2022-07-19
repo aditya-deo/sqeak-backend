@@ -2,9 +2,12 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
+var bodyParser = require("body-parser");
 
 const app = express();
 app.use(cors());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 var mongoDB = process.env.MONGODBCONNECTION;
 mongoose.connect(
@@ -56,6 +59,19 @@ app.get("/read", (req, res) => {
       console.log(err);
     } else {
       res.send(data);
+    }
+  });
+});
+
+//Handling requests for publishing blogs
+app.post("/publish", (req, res) => {
+  // console.log(req.body);
+  const postToAdd = new post(req.body);
+  postToAdd.save((err) => {
+    if (err) {
+      res.send(err);
+    } else {
+      res.send("successfully added post");
     }
   });
 });
