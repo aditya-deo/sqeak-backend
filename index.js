@@ -9,10 +9,6 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, "/public")));
-app.get("*", function (req, res) {
-  res.sendFile(path.join(__dirname, "public", "index.html"));
-});
 
 var mongoDB = process.env.MONGODBCONNECTION;
 mongoose.connect(
@@ -79,6 +75,11 @@ app.post("/publish", (req, res) => {
       res.send("successfully added post");
     }
   });
+});
+
+app.use(express.static(path.join(__dirname, "/public")));
+app.get("*", function (req, res) {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
 const PORT = process.env.PORT || 5000;
