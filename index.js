@@ -3,11 +3,13 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 var bodyParser = require("body-parser");
+const path = require("path");
 
 const app = express();
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(express.static(path.join(__dirname, "/public")));
 
 var mongoDB = process.env.MONGODBCONNECTION;
 mongoose.connect(
