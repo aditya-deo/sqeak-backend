@@ -25,6 +25,12 @@ mongoose.connect(
 //Bind connection to error event (to get notification of connection errors)
 // db.on("error", console.error.bind(console, "MongoDB connection error:"));
 
+app.use(express.static(path.join(__dirname, "/public")));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
+});
+
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
@@ -77,10 +83,12 @@ app.post("/publish", (req, res) => {
   });
 });
 
-app.use(express.static(path.join(__dirname, "/public")));
-app.get("*", function (req, res) {
-  res.sendFile(path.join(__dirname, "public", "index.html"));
-});
+// app.use(express.static(path.join(__dirname, "/public")));
+// app.get("*", function (req, res) {
+//   res.sendFile(path.join(__dirname, "public", "index.html"));
+// });
+
+//set static folder
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
