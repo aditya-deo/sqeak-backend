@@ -25,11 +25,15 @@ mongoose.connect(
 //Bind connection to error event (to get notification of connection errors)
 // db.on("error", console.error.bind(console, "MongoDB connection error:"));
 
-// app.use(express.static(path.join(__dirname, "/public")));
-
+// if (
+//   process.env.NODE_ENV === "production" ||
+//   process.env.NODE_ENV === "staging"
+// ) {
+// app.use(express.static("public"));
 // app.get("*", (req, res) => {
-//   res.sendFile(path.join(__dirname, "public", "index.html"));
+//   res.sendFile(path.join(__dirname + "/public/index.html"));
 // });
+// }
 
 app.get("/api", (req, res) => {
   res.send("This is the backend for Sqeak. You're not allowed here.");
@@ -53,7 +57,7 @@ app.get("/api/cards", (req, res) => {
     if (err) {
       console.log(err);
     } else {
-      res.send(data);
+      res.send(data.reverse());
     }
   });
 });
