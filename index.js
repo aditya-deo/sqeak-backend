@@ -31,8 +31,8 @@ mongoose.connect(
 //   res.sendFile(path.join(__dirname, "public", "index.html"));
 // });
 
-app.get("/", (req, res) => {
-  res.send("Hello World!");
+app.get("/api", (req, res) => {
+  res.send("This is the backend for Sqeak. You're not allowed here.");
 });
 
 var postSchema = new mongoose.Schema(
@@ -48,7 +48,7 @@ var postSchema = new mongoose.Schema(
 const post = mongoose.model("Post", postSchema);
 
 //Handling request for PostCards (send all the posts for now)
-app.get("/cards", (req, res) => {
+app.get("/api/cards", (req, res) => {
   post.find({}, (err, data) => {
     if (err) {
       console.log(err);
@@ -59,7 +59,7 @@ app.get("/cards", (req, res) => {
 });
 
 //Handling request for /read/postID
-app.get("/read", (req, res) => {
+app.get("/api/read", (req, res) => {
   const Postid = req.query["id"];
   post.findOne({ id: Postid }, (err, data) => {
     if (err) {
@@ -71,7 +71,7 @@ app.get("/read", (req, res) => {
 });
 
 //Handling requests for publishing blogs
-app.post("/publish", (req, res) => {
+app.post("/api/publish", (req, res) => {
   // console.log(req.body);
   const postToAdd = new post(req.body);
   postToAdd.save((err) => {
